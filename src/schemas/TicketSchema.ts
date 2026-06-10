@@ -2,6 +2,8 @@ import mongoose, { Schema } from "mongoose";
 
 import { VehicleType } from "../enums/VehicleType";
 import { TicketStatus } from "../enums/TicketStatus";
+import { TicketDocument } from "../types/TicketDocument";
+
 
 const TicketSchema = new Schema(
     {
@@ -47,8 +49,10 @@ const TicketSchema = new Schema(
     },
 );
 
+
+
 export const TicketModel =
-    mongoose.model(
+    mongoose.model<TicketDocument>(
         "Ticket",
-        TicketSchema,
-    );
+        TicketSchema
+    );  
