@@ -19,7 +19,7 @@ export class NearestSpotAllocator
 
         const spots =
             await this.parkingSpotRepository
-                .findAvailableByType(spotType);
+                .findAvailableByTypeOnActiveFloors(spotType);
 
         if (spots.length === 0) {
             return null;

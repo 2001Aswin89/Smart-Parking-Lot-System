@@ -4,7 +4,7 @@ import { IParkingSpotRepository } from "../interfaces/repositories/IParkingSpotR
 
 import { ParkingSpotDocument } from "../types/ParkingSpotDocument";
 import { SpotType } from "../enums/SpotType";
-import { FloorModel } from "../models/ParkingFloor";
+import { FloorModel } from "../schemas/FloorSchema";
 
 export class MongoParkingSpotRepository
     implements IParkingSpotRepository {
@@ -54,5 +54,18 @@ export class MongoParkingSpotRepository
             });
 
         return !!spot;
+    }
+
+    async findAvailableByTypeOnActiveFloors(
+        type: SpotType,
+    ): Promise<ParkingSpotDocument[]> {
+        const activeFloors = await FloorModel.find({ isActive: true });
+        const activeFloorNumbers = activeFloors.map((f) => f.floorNumber);
+
+        return ParkingSpotModel.find({
+            type,
+            occupied: false,
+            floorNumber: { $in: activeFloorNumbers },
+        });
     }
 }
