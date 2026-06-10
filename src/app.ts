@@ -8,7 +8,12 @@ import { errorHandler } from "./middleware/errorHandler";
 const app = express();
 
 app.use(express.json());
-
+app.get("/", (_, res) => {
+    res.status(200).json({
+        success: true,
+        message: "Smart Parking Lot API",
+    });
+});
 app.use("/health", healthRoutes);
 
 app.use(notFoundHandler);
