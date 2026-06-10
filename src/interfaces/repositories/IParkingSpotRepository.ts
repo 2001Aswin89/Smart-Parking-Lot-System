@@ -1,4 +1,5 @@
 import { ParkingSpotDocument } from "../../types/ParkingSpotDocument";
+import { SpotType } from "../../enums/SpotType";
 
 export interface IParkingSpotRepository {
     findAll(): Promise<ParkingSpotDocument[]>;
@@ -8,7 +9,7 @@ export interface IParkingSpotRepository {
     ): Promise<ParkingSpotDocument | null>;
 
     findAvailableByType(
-        type: string,
+        type: SpotType,
     ): Promise<ParkingSpotDocument[]>;
 
     create(
@@ -20,3 +21,5 @@ export interface IParkingSpotRepository {
         data: Partial<ParkingSpotDocument>,
     ): Promise<ParkingSpotDocument | null>;
 }
+
+
