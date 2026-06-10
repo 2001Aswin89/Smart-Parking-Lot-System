@@ -1,5 +1,7 @@
 import mongoose, { Schema } from "mongoose";
 import { SpotType } from "../enums/SpotType";
+import { ParkingSpotDocument } from "../types/ParkingSpotDocument";
+
 
 const ParkingSpotSchema = new Schema(
     {
@@ -29,9 +31,8 @@ const ParkingSpotSchema = new Schema(
         timestamps: true,
     },
 );
-
 export const ParkingSpotModel =
-    mongoose.model(
+    mongoose.model<ParkingSpotDocument>(
         "ParkingSpot",
-        ParkingSpotSchema,
+        ParkingSpotSchema
     );

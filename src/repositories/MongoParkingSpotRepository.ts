@@ -1,0 +1,45 @@
+import { ParkingSpotModel } from "../schemas/ParkingSpotSchema";
+
+import { IParkingSpotRepository } from "../interfaces/repositories/IParkingSpotRepository";
+
+import { ParkingSpotDocument } from "../types/ParkingSpotDocument";
+import { SpotType } from "../enums/SpotType";
+
+
+export class MongoParkingSpotRepository
+    implements IParkingSpotRepository {
+    async findAll(): Promise<ParkingSpotDocument[]> {
+        return ParkingSpotModel.find();
+    }
+
+    async findById(
+        id: string,
+    ): Promise<ParkingSpotDocument | null> {
+        return ParkingSpotModel.findById(id);
+    }
+    async findAvailableByType(
+        type: SpotType,
+    ): Promise<ParkingSpotDocument[]> {
+        return ParkingSpotModel.find({
+            type,
+            occupied: false,
+        });
+    }
+
+    async create(
+        data: Partial<ParkingSpotDocument>,
+    ): Promise<ParkingSpotDocument> {
+        return ParkingSpotModel.create(data);
+    }
+
+    async update(
+        id: string,
+        data: Partial<ParkingSpotDocument>,
+    ): Promise<ParkingSpotDocument | null> {
+        return ParkingSpotModel.findByIdAndUpdate(
+            id,
+            data,
+            { new: true },
+        );
+    }
+}
