@@ -20,6 +20,13 @@ export interface IParkingSpotRepository {
         id: string,
         data: Partial<ParkingSpotDocument>,
     ): Promise<ParkingSpotDocument | null>;
+
+    hasOccupiedSpotsOnFloor(
+        floorNumber: number,
+    ): Promise<boolean>;
+    findAvailableByTypeOnActiveFloors(
+        type: SpotType,
+    ): Promise<ParkingSpotDocument[]>;
 }
 
 

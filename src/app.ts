@@ -1,6 +1,9 @@
 import express from "express";
 
 import healthRoutes from "./routes/health.routes";
+import parkingRoutes from "./routes/parking.routes";
+import spotRoutes from "./routes/spot.routes";
+import floorRoutes from "./routes/floor.routes";
 
 import { notFoundHandler } from "./middleware/notFoundHandler";
 import { errorHandler } from "./middleware/errorHandler";
@@ -15,6 +18,19 @@ app.get("/", (_, res) => {
     });
 });
 app.use("/health", healthRoutes);
+app.use(
+    "/api/parking",
+    parkingRoutes,
+);
+
+app.use(
+    "/api/spots",
+    spotRoutes,
+);
+app.use(
+    "/api/floors",
+    floorRoutes,
+);
 
 app.use(notFoundHandler);
 app.use(errorHandler);

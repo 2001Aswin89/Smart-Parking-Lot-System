@@ -4,7 +4,7 @@ import { IParkingSpotRepository } from "../interfaces/repositories/IParkingSpotR
 
 import { ParkingSpotDocument } from "../types/ParkingSpotDocument";
 import { SpotType } from "../enums/SpotType";
-
+import { FloorModel } from "../models/ParkingFloor";
 
 export class MongoParkingSpotRepository
     implements IParkingSpotRepository {
@@ -43,5 +43,16 @@ export class MongoParkingSpotRepository
                 returnDocument: "after",
             }
         );
+    }
+    async hasOccupiedSpotsOnFloor(
+        floorNumber: number,
+    ): Promise<boolean> {
+        const spot =
+            await ParkingSpotModel.findOne({
+                floorNumber,
+                occupied: true,
+            });
+
+        return !!spot;
     }
 }
