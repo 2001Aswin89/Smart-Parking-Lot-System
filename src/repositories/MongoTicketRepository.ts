@@ -25,7 +25,9 @@ export class MongoTicketRepository
         return TicketModel.findByIdAndUpdate(
             id,
             data,
-            { new: true },
+            {
+                returnDocument: "after",
+            }
         );
     }
 }

@@ -39,7 +39,9 @@ export class MongoParkingSpotRepository
         return ParkingSpotModel.findByIdAndUpdate(
             id,
             data,
-            { new: true },
+            {
+                returnDocument: "after",
+            }
         );
     }
 }
