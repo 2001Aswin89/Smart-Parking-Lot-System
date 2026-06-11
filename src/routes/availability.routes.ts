@@ -1,12 +1,12 @@
 import { Router } from "express";
 
-import { spotController } from "../config/container";
+import { availabilityController } from "../config/container";
 
 const router = Router();
 
 router.get(
     "/",
-    spotController.getAllSpots,
+    availabilityController.getAvailability,
 );
 
 export default router;
