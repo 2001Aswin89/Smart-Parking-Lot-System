@@ -7,6 +7,11 @@ import { MongoParkingSpotRepository } from "../repositories/MongoParkingSpotRepo
 
 import { FloorService } from "../services/FloorService";
 
+import {
+    validateCreateFloorRequest,
+    validateFloorNumberParam,
+} from "../middleware/validateRequest";
+
 const router = Router();
 
 const floorRepository =
@@ -21,7 +26,7 @@ const floorService =
         spotRepository,
     );
 
-const floorController =
+const controller =
     new FloorController(
         floorRepository,
         floorService,
@@ -29,22 +34,25 @@ const floorController =
 
 router.post(
     "/",
-    floorController.createFloor,
+    validateCreateFloorRequest,
+    controller.createFloor,
 );
 
 router.get(
     "/",
-    floorController.getFloors,
+    controller.getFloors,
 );
 
 router.patch(
     "/:floorNumber/close",
-    floorController.closeFloor,
+    validateFloorNumberParam,
+    controller.closeFloor,
 );
 
 router.patch(
     "/:floorNumber/open",
-    floorController.openFloor,
+    validateFloorNumberParam,
+    controller.openFloor,
 );
 
 export default router;

@@ -8,7 +8,6 @@ import { ParkingService } from "../services/ParkingService";
 import { ExitService } from "../services/ExitService";
 
 import { VehicleType } from "../enums/VehicleType";
-
 import { BadRequestError } from "../errors/BadRequestError";
 
 export class ParkingController {
@@ -63,9 +62,12 @@ export class ParkingController {
                 );
             }
 
+            const ticketId: string =
+                ticketIdParam;
+
             const ticket =
                 await this.exitService.exitVehicle(
-                    ticketIdParam,
+                    ticketId,
                 );
 
             res.status(200).json({

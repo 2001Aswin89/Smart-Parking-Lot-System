@@ -11,6 +11,11 @@ import { MongoTicketRepository } from "../repositories/MongoTicketRepository";
 import { NearestSpotAllocator } from "../allocators/NearestSpotAllocator";
 import { HourlyPricingStrategy } from "../pricing/HourlyPricingStrategy";
 
+import {
+    validateParkVehicleRequest,
+    validateTicketIdParam,
+} from "../middleware/validateRequest";
+
 const router = Router();
 
 const spotRepository =
@@ -49,11 +54,13 @@ const controller =
 
 router.post(
     "/park",
+    validateParkVehicleRequest,
     controller.parkVehicle,
 );
 
 router.post(
     "/exit/:ticketId",
+    validateTicketIdParam,
     controller.exitVehicle,
 );
 
