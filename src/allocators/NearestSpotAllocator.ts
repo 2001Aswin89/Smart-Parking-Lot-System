@@ -16,11 +16,18 @@ export class NearestSpotAllocator
     async allocateSpot(
         spotType: SpotType,
     ): Promise<ParkingSpotDocument | null> {
+<<<<<<< HEAD
         const spots =
             await this.parkingSpotRepository
                 .findAvailableByTypeOnActiveFloors(
                     spotType,
                 );
+=======
+
+        const spots =
+            await this.parkingSpotRepository
+                .findAvailableByType(spotType);
+>>>>>>> origin/development
 
         if (spots.length === 0) {
             return null;
@@ -28,6 +35,7 @@ export class NearestSpotAllocator
 
         return spots[0];
     }
+<<<<<<< HEAD
 
     async reserveSpot(
         spotTypes: SpotType[],
@@ -37,4 +45,6 @@ export class NearestSpotAllocator
                 spotTypes,
             );
     }
+=======
+>>>>>>> origin/development
 }

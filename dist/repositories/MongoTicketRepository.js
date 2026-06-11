@@ -2,6 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.MongoTicketRepository = void 0;
 const TicketSchema_1 = require("../schemas/TicketSchema");
+<<<<<<< HEAD
 const TicketStatus_1 = require("../enums/TicketStatus");
 class MongoTicketRepository {
     async findAll() {
@@ -19,10 +20,17 @@ class MongoTicketRepository {
             status: TicketStatus_1.TicketStatus.ACTIVE,
         });
     }
+=======
+class MongoTicketRepository {
+    async findById(id) {
+        return TicketSchema_1.TicketModel.findById(id);
+    }
+>>>>>>> origin/development
     async create(data) {
         return TicketSchema_1.TicketModel.create(data);
     }
     async update(id, data) {
+<<<<<<< HEAD
         return TicketSchema_1.TicketModel.findByIdAndUpdate(id, data, {
             returnDocument: "after",
         });
@@ -34,6 +42,9 @@ class MongoTicketRepository {
         }, data, {
             returnDocument: "after",
         });
+=======
+        return TicketSchema_1.TicketModel.findByIdAndUpdate(id, data, { new: true });
+>>>>>>> origin/development
     }
 }
 exports.MongoTicketRepository = MongoTicketRepository;
