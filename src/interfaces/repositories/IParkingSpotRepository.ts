@@ -24,6 +24,10 @@ export interface IParkingSpotRepository {
         types: SpotType[],
     ): Promise<ParkingSpotDocument | null>;
 
+    findByFloorNumbers(
+        floorNumbers: number[],
+    ): Promise<ParkingSpotDocument[]>;
+
     create(
         data: Partial<ParkingSpotDocument>,
     ): Promise<ParkingSpotDocument>;

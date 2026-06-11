@@ -22,6 +22,7 @@ export class MongoParkingSpotRepository
     ): Promise<ParkingSpotDocument | null> {
         return ParkingSpotModel.findById(id);
     }
+
     async findAvailableByType(
         type: SpotType,
     ): Promise<ParkingSpotDocument[]> {
@@ -126,6 +127,19 @@ export class MongoParkingSpotRepository
                 },
             },
         );
+    }
+
+    async findByFloorNumbers(
+        floorNumbers: number[],
+    ): Promise<ParkingSpotDocument[]> {
+        return ParkingSpotModel.find({
+            floorNumber: {
+                $in: floorNumbers,
+            },
+        }).sort({
+            floorNumber: 1,
+            spotNumber: 1,
+        });
     }
 
     async create(
