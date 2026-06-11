@@ -1,0 +1,14 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = require("express");
+const AvailabilityController_1 = require("../controllers/AvailabilityController");
+const AvailabilityService_1 = require("../services/AvailabilityService");
+const MongoFloorRepository_1 = require("../repositories/MongoFloorRepository");
+const MongoParkingSpotRepository_1 = require("../repositories/MongoParkingSpotRepository");
+const router = (0, express_1.Router)();
+const floorRepository = new MongoFloorRepository_1.MongoFloorRepository();
+const spotRepository = new MongoParkingSpotRepository_1.MongoParkingSpotRepository();
+const availabilityService = new AvailabilityService_1.AvailabilityService(floorRepository, spotRepository);
+const controller = new AvailabilityController_1.AvailabilityController(availabilityService);
+router.get("/", controller.getAvailability);
+exports.default = router;

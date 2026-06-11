@@ -1,9 +1,21 @@
 import dotenv from "dotenv";
 
-dotenv.config();
+const envFile =
+    process.env.NODE_ENV === "test"
+        ? ".env.test"
+        : ".env";
+
+dotenv.config({
+    path: envFile,
+});
 
 export const env = {
-    port: Number(process.env.PORT) || 3000,
+    nodeEnv:
+        process.env.NODE_ENV || "development",
 
-    mongoUri: process.env.MONGODB_URI || "",
+    port:
+        Number(process.env.PORT) || 3000,
+
+    mongoUri:
+        process.env.MONGODB_URI || "",
 };
