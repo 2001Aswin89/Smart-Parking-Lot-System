@@ -1,20 +1,12 @@
 import { Router } from "express";
 
-import { SpotController } from "../controllers/SpotController";
-
-import { MongoParkingSpotRepository } from "../repositories/MongoParkingSpotRepository";
+import { spotController } from "../config/container";
 
 const router = Router();
 
-const repository =
-    new MongoParkingSpotRepository();
-
-const controller =
-    new SpotController(repository);
-
 router.get(
     "/",
-    controller.getAllSpots,
+    spotController.getAllSpots,
 );
 
 export default router;
