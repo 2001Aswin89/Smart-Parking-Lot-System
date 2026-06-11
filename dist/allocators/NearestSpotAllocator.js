@@ -2,7 +2,6 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.NearestSpotAllocator = void 0;
 class NearestSpotAllocator {
-    parkingSpotRepository;
     constructor(parkingSpotRepository) {
         this.parkingSpotRepository = parkingSpotRepository;
     }

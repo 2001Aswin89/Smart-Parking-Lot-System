@@ -2,12 +2,10 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ParkingSpot = void 0;
 class ParkingSpot {
-    id;
-    type;
-    occupied = false;
     constructor(id, type) {
         this.id = id;
         this.type = type;
+        this.occupied = false;
     }
     occupy() {
         this.occupied = true;

@@ -41,11 +41,8 @@ const TicketSchema = new mongoose_1.Schema({
     vehicleNumber: {
         type: String,
         required: true,
-<<<<<<< HEAD
         trim: true,
         uppercase: true,
-=======
->>>>>>> origin/development
     },
     vehicleType: {
         type: String,
@@ -76,7 +73,6 @@ const TicketSchema = new mongoose_1.Schema({
 }, {
     timestamps: true,
 });
-<<<<<<< HEAD
 TicketSchema.index({
     vehicleNumber: 1,
     status: 1,
@@ -90,6 +86,4 @@ TicketSchema.index({
     spotId: 1,
     status: 1,
 });
-=======
->>>>>>> origin/development
 exports.TicketModel = mongoose_1.default.model("Ticket", TicketSchema);

@@ -2,10 +2,6 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Ticket = void 0;
 class Ticket {
-    id;
-    vehicleNumber;
-    spotId;
-    entryTime;
     constructor(id, vehicleNumber, spotId, entryTime) {
         this.id = id;
         this.vehicleNumber = vehicleNumber;

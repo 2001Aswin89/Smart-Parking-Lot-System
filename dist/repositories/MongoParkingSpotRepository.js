@@ -2,7 +2,6 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.MongoParkingSpotRepository = void 0;
 const ParkingSpotSchema_1 = require("../schemas/ParkingSpotSchema");
-<<<<<<< HEAD
 const FloorSchema_1 = require("../schemas/FloorSchema");
 class MongoParkingSpotRepository {
     async findAll() {
@@ -11,11 +10,6 @@ class MongoParkingSpotRepository {
             floorNumber: 1,
             spotNumber: 1,
         });
-=======
-class MongoParkingSpotRepository {
-    async findAll() {
-        return ParkingSpotSchema_1.ParkingSpotModel.find();
->>>>>>> origin/development
     }
     async findById(id) {
         return ParkingSpotSchema_1.ParkingSpotModel.findById(id);
@@ -24,7 +18,6 @@ class MongoParkingSpotRepository {
         return ParkingSpotSchema_1.ParkingSpotModel.find({
             type,
             occupied: false,
-<<<<<<< HEAD
         }).sort({
             floorNumber: 1,
             spotNumber: 1,
@@ -91,15 +84,22 @@ class MongoParkingSpotRepository {
                 floorNumber: 1,
                 spotNumber: 1,
             },
-=======
->>>>>>> origin/development
+        });
+    }
+    async findByFloorNumbers(floorNumbers) {
+        return ParkingSpotSchema_1.ParkingSpotModel.find({
+            floorNumber: {
+                $in: floorNumbers,
+            },
+        }).sort({
+            floorNumber: 1,
+            spotNumber: 1,
         });
     }
     async create(data) {
         return ParkingSpotSchema_1.ParkingSpotModel.create(data);
     }
     async update(id, data) {
-<<<<<<< HEAD
         return ParkingSpotSchema_1.ParkingSpotModel.findByIdAndUpdate(id, data, {
             returnDocument: "after",
         });
@@ -110,9 +110,6 @@ class MongoParkingSpotRepository {
             occupied: true,
         });
         return !!spot;
-=======
-        return ParkingSpotSchema_1.ParkingSpotModel.findByIdAndUpdate(id, data, { new: true });
->>>>>>> origin/development
     }
 }
 exports.MongoParkingSpotRepository = MongoParkingSpotRepository;

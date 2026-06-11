@@ -3,11 +3,13 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.HourlyPricingStrategy = void 0;
 const VehicleType_1 = require("../enums/VehicleType");
 class HourlyPricingStrategy {
-    rates = {
-        [VehicleType_1.VehicleType.MOTORCYCLE]: 20,
-        [VehicleType_1.VehicleType.CAR]: 50,
-        [VehicleType_1.VehicleType.BUS]: 100,
-    };
+    constructor() {
+        this.rates = {
+            [VehicleType_1.VehicleType.MOTORCYCLE]: 20,
+            [VehicleType_1.VehicleType.CAR]: 50,
+            [VehicleType_1.VehicleType.BUS]: 100,
+        };
+    }
     calculateFee(entryTime, exitTime, vehicleType) {
         const durationMs = exitTime.getTime() -
             entryTime.getTime();

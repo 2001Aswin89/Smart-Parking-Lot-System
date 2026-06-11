@@ -8,6 +8,7 @@ const MongoParkingSpotRepository_1 = require("../repositories/MongoParkingSpotRe
 const MongoTicketRepository_1 = require("../repositories/MongoTicketRepository");
 const NearestSpotAllocator_1 = require("../allocators/NearestSpotAllocator");
 const HourlyPricingStrategy_1 = require("../pricing/HourlyPricingStrategy");
+const validateRequest_1 = require("../middleware/validateRequest");
 const router = (0, express_1.Router)();
 const spotRepository = new MongoParkingSpotRepository_1.MongoParkingSpotRepository();
 const ticketRepository = new MongoTicketRepository_1.MongoTicketRepository();
@@ -16,6 +17,6 @@ const pricingStrategy = new HourlyPricingStrategy_1.HourlyPricingStrategy();
 const parkingService = new ParkingService_1.ParkingService(allocator, spotRepository, ticketRepository);
 const exitService = new ExitService_1.ExitService(ticketRepository, spotRepository, pricingStrategy);
 const controller = new ParkingController_1.ParkingController(parkingService, exitService);
-router.post("/park", controller.parkVehicle);
-router.post("/exit/:ticketId", controller.exitVehicle);
+router.post("/park", validateRequest_1.validateParkVehicleRequest, controller.parkVehicle);
+router.post("/exit/:ticketId", validateRequest_1.validateTicketIdParam, controller.exitVehicle);
 exports.default = router;

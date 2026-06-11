@@ -1,7 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.errorHandler = void 0;
-<<<<<<< HEAD
 const AppError_1 = require("../errors/AppError");
 const errorHandler = (err, req, res, next) => {
     if (err instanceof AppError_1.AppError) {
@@ -14,12 +13,6 @@ const errorHandler = (err, req, res, next) => {
     return res.status(500).json({
         success: false,
         message: "Internal Server Error",
-=======
-const errorHandler = (error, req, res, next) => {
-    res.status(500).json({
-        success: false,
-        message: error.message,
->>>>>>> origin/development
     });
 };
 exports.errorHandler = errorHandler;

@@ -58,7 +58,6 @@ const ParkingSpotSchema = new mongoose_1.Schema({
 }, {
     timestamps: true,
 });
-<<<<<<< HEAD
 ParkingSpotSchema.index({
     floorNumber: 1,
     spotNumber: 1,
@@ -68,6 +67,4 @@ ParkingSpotSchema.index({
     type: 1,
     occupied: 1,
 });
-=======
->>>>>>> origin/development
 exports.ParkingSpotModel = mongoose_1.default.model("ParkingSpot", ParkingSpotSchema);

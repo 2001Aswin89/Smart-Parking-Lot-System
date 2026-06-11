@@ -5,9 +5,6 @@ const TicketStatus_1 = require("../enums/TicketStatus");
 const BadRequestError_1 = require("../errors/BadRequestError");
 const NotFoundError_1 = require("../errors/NotFoundError");
 class ExitService {
-    ticketRepository;
-    parkingSpotRepository;
-    pricingStrategy;
     constructor(ticketRepository, parkingSpotRepository, pricingStrategy) {
         this.ticketRepository = ticketRepository;
         this.parkingSpotRepository = parkingSpotRepository;

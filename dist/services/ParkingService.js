@@ -6,9 +6,6 @@ const SpotType_1 = require("../enums/SpotType");
 const TicketStatus_1 = require("../enums/TicketStatus");
 const BadRequestError_1 = require("../errors/BadRequestError");
 class ParkingService {
-    allocator;
-    parkingSpotRepository;
-    ticketRepository;
     constructor(allocator, parkingSpotRepository, ticketRepository) {
         this.allocator = allocator;
         this.parkingSpotRepository = parkingSpotRepository;

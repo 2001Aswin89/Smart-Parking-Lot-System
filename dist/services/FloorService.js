@@ -4,8 +4,6 @@ exports.FloorService = void 0;
 const BadRequestError_1 = require("../errors/BadRequestError");
 const NotFoundError_1 = require("../errors/NotFoundError");
 class FloorService {
-    floorRepository;
-    spotRepository;
     constructor(floorRepository, spotRepository) {
         this.floorRepository = floorRepository;
         this.spotRepository = spotRepository;
