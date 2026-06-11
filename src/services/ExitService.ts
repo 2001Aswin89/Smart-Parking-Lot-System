@@ -1,17 +1,15 @@
-import { TicketStatus }
-    from "../enums/TicketStatus";
+import { TicketStatus } from "../enums/TicketStatus";
 
-import { ITicketRepository }
-    from "../interfaces/repositories/ITicketRepository";
+import { ITicketRepository } from "../interfaces/repositories/ITicketRepository";
 
-import { IParkingSpotRepository }
-    from "../interfaces/repositories/IParkingSpotRepository";
+import { IParkingSpotRepository } from "../interfaces/repositories/IParkingSpotRepository";
 
-import { IPricingStrategy }
-    from "../interfaces/pricing/IPricingStrategy";
+import { IPricingStrategy } from "../interfaces/pricing/IPricingStrategy";
 
-import { TicketDocument }
-    from "../types/TicketDocument";
+import { TicketDocument } from "../types/TicketDocument";
+
+import { BadRequestError } from "../errors/BadRequestError";
+import { NotFoundError } from "../errors/NotFoundError";
 
 export class ExitService {
 
@@ -30,13 +28,19 @@ export class ExitService {
         ticketId: string,
     ): Promise<TicketDocument> {
 
+        if (!ticketId) {
+            throw new BadRequestError(
+                "Ticket id is required",
+            );
+        }
+
         const ticket =
             await this.ticketRepository.findById(
                 ticketId,
             );
 
         if (!ticket) {
-            throw new Error(
+            throw new NotFoundError(
                 "Ticket not found",
             );
         }
@@ -45,7 +49,7 @@ export class ExitService {
             ticket.status !==
             TicketStatus.ACTIVE
         ) {
-            throw new Error(
+            throw new BadRequestError(
                 "Ticket already closed",
             );
         }
@@ -56,11 +60,13 @@ export class ExitService {
             this.pricingStrategy.calculateFee(
                 ticket.entryTime,
                 exitTime,
+                ticket.vehicleType,
             );
 
         const updatedTicket =
-            await this.ticketRepository.update(
+            await this.ticketRepository.updateStatus(
                 ticket._id.toString(),
+                TicketStatus.ACTIVE,
                 {
                     exitTime,
                     fee,
@@ -69,16 +75,23 @@ export class ExitService {
                 },
             );
 
-        await this.parkingSpotRepository.update(
-            ticket.spotId,
-            {
-                occupied: false,
-            },
-        );
-
         if (!updatedTicket) {
-            throw new Error(
-                "Failed to update ticket",
+            throw new BadRequestError(
+                "Ticket already closed",
+            );
+        }
+
+        const releasedSpot =
+            await this.parkingSpotRepository.update(
+                ticket.spotId,
+                {
+                    occupied: false,
+                },
+            );
+
+        if (!releasedSpot) {
+            throw new NotFoundError(
+                "Parking spot linked to ticket not found",
             );
         }
 

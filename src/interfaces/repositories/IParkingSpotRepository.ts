@@ -12,6 +12,18 @@ export interface IParkingSpotRepository {
         type: SpotType,
     ): Promise<ParkingSpotDocument[]>;
 
+    findAvailableByTypeOnActiveFloors(
+        type: SpotType,
+    ): Promise<ParkingSpotDocument[]>;
+
+    findNearestAvailableByTypesOnActiveFloors(
+        types: SpotType[],
+    ): Promise<ParkingSpotDocument | null>;
+
+    reserveNearestAvailableByTypesOnActiveFloors(
+        types: SpotType[],
+    ): Promise<ParkingSpotDocument | null>;
+
     create(
         data: Partial<ParkingSpotDocument>,
     ): Promise<ParkingSpotDocument>;
@@ -24,9 +36,4 @@ export interface IParkingSpotRepository {
     hasOccupiedSpotsOnFloor(
         floorNumber: number,
     ): Promise<boolean>;
-    findAvailableByTypeOnActiveFloors(
-        type: SpotType,
-    ): Promise<ParkingSpotDocument[]>;
 }
-
-

@@ -4,13 +4,13 @@ import { TicketStatus } from "../enums/TicketStatus";
 
 import { ISpotAllocator } from "../interfaces/allocators/ISpotAllocator";
 
-import { ITicketRepository }
-    from "../interfaces/repositories/ITicketRepository";
+import { ITicketRepository } from "../interfaces/repositories/ITicketRepository";
 
-import { IParkingSpotRepository }
-    from "../interfaces/repositories/IParkingSpotRepository";
+import { IParkingSpotRepository } from "../interfaces/repositories/IParkingSpotRepository";
 
 import { TicketDocument } from "../types/TicketDocument";
+
+import { BadRequestError } from "../errors/BadRequestError";
 
 export class ParkingService {
 
@@ -29,59 +29,92 @@ export class ParkingService {
         vehicleType: VehicleType,
     ): Promise<TicketDocument> {
 
-        const requiredSpotType =
-            this.getSpotType(vehicleType);
+        if (!vehicleNumber || !vehicleType) {
+            throw new BadRequestError(
+                "Vehicle number and vehicle type are required",
+            );
+        }
 
-        const spot =
-            await this.allocator.allocateSpot(
-                requiredSpotType,
+        const existingActiveTicket =
+            await this.ticketRepository
+                .findActiveByVehicleNumber(
+                    vehicleNumber,
+                );
+
+        if (existingActiveTicket) {
+            throw new BadRequestError(
+                "Vehicle already has an active parking ticket",
+            );
+        }
+
+        const compatibleSpotTypes =
+            this.getCompatibleSpotTypes(
+                vehicleType,
             );
 
-        if (!spot) {
-            throw new Error(
+        const reservedSpot =
+            await this.allocator.reserveSpot(
+                compatibleSpotTypes,
+            );
+
+        if (!reservedSpot) {
+            throw new BadRequestError(
                 "No parking spot available",
             );
         }
 
-        await this.parkingSpotRepository.update(
-            spot._id.toString(),
-            {
-                occupied: true,
-            },
-        );
+        try {
+            const ticket =
+                await this.ticketRepository.create({
+                    vehicleNumber,
+                    vehicleType,
 
-        const ticket =
-            await this.ticketRepository.create({
-                vehicleNumber,
-                vehicleType,
+                    spotId: reservedSpot._id.toString(),
 
-                spotId: spot._id.toString(),
+                    entryTime: new Date(),
 
-                entryTime: new Date(),
+                    status: TicketStatus.ACTIVE,
+                });
 
-                status: TicketStatus.ACTIVE,
-            });
+            return ticket;
+        } catch (error) {
+            await this.parkingSpotRepository.update(
+                reservedSpot._id.toString(),
+                {
+                    occupied: false,
+                },
+            );
 
-        return ticket;
+            throw error;
+        }
     }
 
-    private getSpotType(
+    private getCompatibleSpotTypes(
         vehicleType: VehicleType,
-    ): SpotType {
+    ): SpotType[] {
 
         switch (vehicleType) {
 
             case VehicleType.MOTORCYCLE:
-                return SpotType.SMALL;
+                return [
+                    SpotType.SMALL,
+                    SpotType.MEDIUM,
+                    SpotType.LARGE,
+                ];
 
             case VehicleType.CAR:
-                return SpotType.MEDIUM;
+                return [
+                    SpotType.MEDIUM,
+                    SpotType.LARGE,
+                ];
 
             case VehicleType.BUS:
-                return SpotType.LARGE;
+                return [
+                    SpotType.LARGE,
+                ];
 
             default:
-                throw new Error(
+                throw new BadRequestError(
                     "Unsupported vehicle type",
                 );
         }

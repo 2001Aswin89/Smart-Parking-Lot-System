@@ -1,9 +1,15 @@
-import { Request, Response, NextFunction } from "express";
+import {
+    Request,
+    Response,
+    NextFunction,
+} from "express";
 
 import { ParkingService } from "../services/ParkingService";
 import { ExitService } from "../services/ExitService";
 
 import { VehicleType } from "../enums/VehicleType";
+
+import { BadRequestError } from "../errors/BadRequestError";
 
 export class ParkingController {
     constructor(
@@ -30,6 +36,8 @@ export class ParkingController {
 
             res.status(201).json({
                 success: true,
+                message:
+                    "Vehicle parked successfully",
                 data: ticket,
             });
         } catch (error) {
@@ -43,15 +51,27 @@ export class ParkingController {
         next: NextFunction,
     ) => {
         try {
-            const { ticketId } = req.body;
+            const ticketIdParam =
+                req.params.ticketId;
+
+            if (
+                !ticketIdParam ||
+                Array.isArray(ticketIdParam)
+            ) {
+                throw new BadRequestError(
+                    "Valid ticket id is required",
+                );
+            }
 
             const ticket =
                 await this.exitService.exitVehicle(
-                    ticketId,
+                    ticketIdParam,
                 );
 
             res.status(200).json({
                 success: true,
+                message:
+                    "Vehicle exited successfully",
                 data: ticket,
             });
         } catch (error) {

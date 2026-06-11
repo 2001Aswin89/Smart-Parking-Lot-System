@@ -53,7 +53,7 @@ router.post(
 );
 
 router.post(
-    "/exit",
+    "/exit/:ticketId",
     controller.exitVehicle,
 );
 

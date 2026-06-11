@@ -1,0 +1,17 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = require("express");
+const FloorController_1 = require("../controllers/FloorController");
+const MongoFloorRepository_1 = require("../repositories/MongoFloorRepository");
+const MongoParkingSpotRepository_1 = require("../repositories/MongoParkingSpotRepository");
+const FloorService_1 = require("../services/FloorService");
+const router = (0, express_1.Router)();
+const floorRepository = new MongoFloorRepository_1.MongoFloorRepository();
+const spotRepository = new MongoParkingSpotRepository_1.MongoParkingSpotRepository();
+const floorService = new FloorService_1.FloorService(floorRepository, spotRepository);
+const floorController = new FloorController_1.FloorController(floorRepository, floorService);
+router.post("/", floorController.createFloor);
+router.get("/", floorController.getFloors);
+router.patch("/:floorNumber/close", floorController.closeFloor);
+router.patch("/:floorNumber/open", floorController.openFloor);
+exports.default = router;

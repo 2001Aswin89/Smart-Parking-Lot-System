@@ -5,4 +5,8 @@ export interface ISpotAllocator {
     allocateSpot(
         spotType: SpotType,
     ): Promise<ParkingSpotDocument | null>;
+
+    reserveSpot(
+        spotTypes: SpotType[],
+    ): Promise<ParkingSpotDocument | null>;
 }
