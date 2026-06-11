@@ -1,8 +1,15 @@
 import mongoose, { Schema } from "mongoose";
+<<<<<<< HEAD
 
 import { SpotType } from "../enums/SpotType";
 import { ParkingSpotDocument } from "../types/ParkingSpotDocument";
 
+=======
+import { SpotType } from "../enums/SpotType";
+import { ParkingSpotDocument } from "../types/ParkingSpotDocument";
+
+
+>>>>>>> origin/development
 const ParkingSpotSchema = new Schema(
     {
         spotNumber: {

@@ -22,7 +22,6 @@ export class MongoParkingSpotRepository
     ): Promise<ParkingSpotDocument | null> {
         return ParkingSpotModel.findById(id);
     }
-
     async findAvailableByType(
         type: SpotType,
     ): Promise<ParkingSpotDocument[]> {
